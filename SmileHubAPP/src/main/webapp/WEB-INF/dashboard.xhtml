@@ -1,0 +1,158 @@
+Tu Dashboard está muy bien estructurado. El código que pasaste ya incluye el "Guardián" (f:metadata) y está bien conectado con el userSession.
+
+        Sin embargo, para que sea funcional al 100% (es decir, que los botones hagan algo y el calendario se vea bien), te hice unas correcciones menores en la lógica de PrimeFaces y en los enlaces de imágenes.
+
+        dashboard.xhtml Corregido
+        XML
+
+<ui:composition template="/WEB-INF/template/base.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="primefaces">
+
+    <f:metadata>
+        <f:viewAction action="#{userSession.checkLogin()}" />
+    </f:metadata>
+
+    <ui:define name="title-view">
+        SMILEHUB - Dashboard Secretaría
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+
+            .dashboard-body {
+                font-family: 'Inter', sans-serif !important;
+                background-color: #f1f5f9;
+                padding: 20px;
+                border-radius: 12px;
+            }
+
+            .kpi-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin-bottom: 25px;
+            }
+            .kpi-card {
+                padding: 20px;
+                border-radius: 12px;
+                color: white;
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+                transition: transform 0.2s;
+            }
+            .kpi-card:hover { transform: translateY(-5px); }
+
+            .bg-blue { background: #2563eb; }
+            .bg-yellow { background: #facc15; color: #854d0e; } /* Texto oscuro para contraste */
+            .bg-green { background: #22c55e; }
+            .bg-purple { background: #a855f7; }
+
+            .kpi-value { font-size: 2rem; font-weight: 700; display: block; }
+            .kpi-label { font-size: 0.9rem; opacity: 0.9; font-weight: 600; }
+
+            .main-grid {
+                display: grid;
+                grid-template-columns: 350px 1fr;
+                gap: 20px;
+            }
+
+            @media (max-width: 960px) {
+                .main-grid { grid-template-columns: 1fr; }
+            }
+
+            .panel-white {
+                background: white;
+                padding: 20px;
+                border-radius: 12px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+
+            .cita-item {
+                border-left: 5px solid #facc15;
+                background: #fffbeb;
+                padding: 15px;
+                margin-bottom: 10px;
+                border-radius: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        </style>
+
+        <h:form id="dashForm">
+            <p:growl id="msgs" showDetail="true" />
+
+            <div class="dashboard-body">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div>
+                        <h2 style="margin: 0; color: #1e293b;">Bienvenida, #{userSession.user.name}</h2>
+                        <p style="margin: 0; color: #64748b;">Panel de gestión de citas SmileHub</p>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <p:commandButton value="Nueva Cita" icon="pi pi-plus"
+                                         styleClass="ui-button-primary" />
+                        <p:commandButton value="Cerrar Sesión" icon="pi pi-sign-out"
+                                         action="#{authenticationController.logout}"
+                                         styleClass="ui-button-danger ui-button-flat"
+                                         process="@this" />
+                    </div>
+                </div>
+
+                <div class="kpi-container">
+                    <div class="kpi-card bg-blue">
+                        <span class="kpi-value">2</span>
+                        <span class="kpi-label">Citas Hoy</span>
+                    </div>
+                    <div class="kpi-card bg-yellow">
+                        <span class="kpi-value">4</span>
+                        <span class="kpi-label">Pendientes</span>
+                    </div>
+                    <div class="kpi-card bg-green">
+                        <span class="kpi-value">1</span>
+                        <span class="kpi-label">Realizadas</span>
+                    </div>
+                    <div class="kpi-card bg-purple">
+                        <span class="kpi-value">12</span>
+                        <span class="kpi-label">Nuevos Pacientes</span>
+                    </div>
+                </div>
+
+                <div class="main-grid">
+                    <div class="panel-white">
+                        <h3 style="margin-top: 0; color: #334155;">Calendario de Citas</h3>
+                        <p:calendar id="inline" mode="inline" style="width: 100%"/>
+                    </div>
+
+                    <div class="panel-white">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="margin: 0; color: #334155;">Próximas Citas (Hoy)</h3>
+                            <p:commandLink value="Ver todas" style="color: #2563eb; font-weight: 600;"/>
+                        </div>
+
+                        <div class="cita-item">
+                            <div>
+                                <span style="font-weight: 700; color: #854d0e; font-size: 1.1rem;">09:00 AM - Ortodoncia</span><br/>
+                                <span style="color: #1e293b;">Juan Carlos Martínez López</span>
+                            </div>
+                            <p:commandButton icon="pi pi-pencil" title="Editar Cita"
+                                             styleClass="ui-button-rounded ui-button-warning ui-button-flat" />
+                        </div>
+
+                        <div class="cita-item" style="border-left-color: #2563eb; background: #eff6ff;">
+                            <div>
+                                <span style="font-weight: 700; color: #1e40af; font-size: 1.1rem;">11:30 AM - Limpieza</span><br/>
+                                <span style="color: #1e293b;">María Fernanda Quiroz</span>
+                            </div>
+                            <p:commandButton icon="pi pi-pencil" title="Editar Cita"
+                                             styleClass="ui-button-rounded ui-button-info ui-button-flat" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

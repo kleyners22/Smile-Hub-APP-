@@ -1,0 +1,13 @@
+## VARIABLES DE ENTORNO PARA POSTGRES - SMILE HUB
+POSTGRES_VERSION=18.1-alpine
+DB_PGSQL_PORT_PUBLIC=5434
+LOCAL_DATA_DIR_BD=C:/sandbox.edu/BaseDatos/Smile-Hubv2
+
+## VARIABLES DE ENTORNO COMUNES
+DB_NAME=smilehub_db
+DB_USER=smileuser
+DB_PASSWORD=smileUser2525
+
+
+## DRIVER JDBC (Si lo necesitas para tu app Java)
+DRIVER_JDBC_DIR=target/lib/*.jar
