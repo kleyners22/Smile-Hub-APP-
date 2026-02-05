@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+    <webApplication id="jbrew-app" location="jbrew-app.war" name="jbrew-app"/>
+</server>
