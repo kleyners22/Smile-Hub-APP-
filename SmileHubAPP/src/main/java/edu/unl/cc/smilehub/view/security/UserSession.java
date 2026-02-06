@@ -3,13 +3,15 @@ package edu.unl.cc.smilehub.view.security;
 import edu.unl.cc.smilehub.domain.security.Usuario;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
-import jakarta.faces.context.FacesContext; // Importante para la redirección
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.application.NavigationHandler;
 import java.io.Serializable;
 
 @Named("userSession")
 @SessionScoped
 public class UserSession implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Usuario usuario;
 
     public void postLogin(Usuario usuario) {
@@ -20,21 +22,28 @@ public class UserSession implements Serializable {
         return usuario != null;
     }
 
-    // MÉTODO DE SEGURIDAD: Evita que entren al dashboard sin loguearse
-    public String checkLogin() {
+    /**
+     * MÉTODO DE SEGURIDAD MEJORADO
+     * Se ejecuta antes de cargar el dashboard.
+     * Si no hay sesión, fuerza la salida al login.
+     */
+    public void checkLogin() {
         if (!isLogged()) {
-            return "/login.xhtml?faces-redirect=true";
+            FacesContext context = FacesContext.getCurrentInstance();
+            NavigationHandler handler = context.getApplication().getNavigationHandler();
+
+            // Forzamos la redirección inmediata
+            handler.handleNavigation(context, null, "/login.xhtml?faces-redirect=true");
+            context.renderResponse();
         }
-        return null;
     }
 
-    // MÉTODO PARA ROLES: El topbar del ingeniero pregunta por esto
     public boolean hasRole(String role) {
-        // Por ahora, como estamos probando, devolvemos true
+        // En el futuro aquí validarás contra usuario.getRole()
         return isLogged();
     }
 
-    // ALIAS PARA COMPATIBILIDAD: El topbar busca "user.name"
+    // El Topbar busca "userSession.user.name"
     public Usuario getUser() {
         return usuario;
     }
@@ -43,7 +52,6 @@ public class UserSession implements Serializable {
         return (usuario != null) ? usuario.getName() : "Invitado";
     }
 
-    // Getters y Setters estándar
     public Usuario getUsuario() {
         return usuario;
     }
