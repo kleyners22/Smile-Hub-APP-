@@ -23,7 +23,6 @@ public class RoleRepository {
     private static void loadPermissions() {
         try {
             for (Role role : tableRoleBD.values()) {
-                // Iteramos usando Long para que coincida con el mapa de PermissionRepository
                 for (long i = 1; i <= 8; i++) {
                     // Llamada estática al repositorio de permisos
                     Permission p = PermissionRepository.find(i);

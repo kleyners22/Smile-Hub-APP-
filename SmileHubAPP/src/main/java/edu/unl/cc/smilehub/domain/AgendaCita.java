@@ -15,15 +15,17 @@ public class AgendaCita {
     }
 
     public AgendaCita(List<Cita> agenda) {
+
         this.agenda = agenda;
     }
 
     public void agendarCita(Cita cita) {
         if (cita == null) {
-            throw new IllegalArgumentException("La cita no puede ser nula");
+            throw new IllegalArgumentException("La no puede estar vacia");
         }
         this.agenda.add(cita);
     }
+
     public List<Cita> getAgenda() {
         return agenda;
     }

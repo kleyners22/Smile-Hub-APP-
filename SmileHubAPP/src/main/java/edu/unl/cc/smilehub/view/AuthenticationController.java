@@ -22,20 +22,20 @@ public class AuthenticationController implements Serializable {
     private UserSession userSession;
 
     public String login() {
-        if ("admin".equals(username) && "12345678".equals(password)) {
+        if ("1105625337".equals(username) && "12345678".equals(password)) {
 
             Usuario user = new Usuario();
             user.setUsername(username);
             user.setPassword(password);
+            user.setName("Secretaria SmileHub"); // Nombre que aparecerá en el dashboard
 
-            user.setName("Secretaria SmileHub");
             setHttpSession(user);
-
             userSession.postLogin(user);
 
             FacesUtil.addSuccessMessageAndKeep("¡Bienvenida!", user.getName());
 
             return "/dashboard.xhtml?faces-redirect=true";
+
         } else {
             FacesUtil.addErrorMessage("Error", "Credenciales incorrectas");
             return null;
