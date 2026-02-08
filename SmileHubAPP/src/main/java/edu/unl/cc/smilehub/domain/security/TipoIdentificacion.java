@@ -1,4 +1,4 @@
-package edu.unl.cc.smilehub.domain.common;
+package edu.unl.cc.smilehub.domain.security;
 
 public enum TipoIdentificacion {
     CEDULA,

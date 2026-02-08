@@ -1,43 +1,21 @@
-/**
- * @author kleyner.ls
- */
 package edu.unl.cc.smilehub.domain.security;
 
 public class Usuario {
 
+    private Long id;
     private String cedula;
-    private String contrasena;
-    private RolUsuario rol;
+    private String password;
+    private TipoRol rol;
 
-    public Usuario() {}
-
-    public Usuario(String cedula, String contrasena, RolUsuario rol) {
+    public Usuario(Long id, String cedula, String password, TipoRol rol) {
+        this.id = id;
         this.cedula = cedula;
-        this.contrasena = contrasena;
+        this.password = password;
         this.rol = rol;
     }
 
-    public String getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public RolUsuario getRol() {
-        return rol;
-    }
-
-    public void setRol(RolUsuario rol) {
-        this.rol = rol;
-    }
+    public Long getId() { return id; }
+    public String getCedula() { return cedula; }
+    public String getPassword() { return password; }
+    public TipoRol getRol() { return rol; }
 }

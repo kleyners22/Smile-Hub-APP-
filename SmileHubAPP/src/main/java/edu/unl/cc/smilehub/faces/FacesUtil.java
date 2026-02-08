@@ -4,25 +4,10 @@ package edu.unl.cc.smilehub.faces;
  * @author wduck (Wilman Chamba Z)
  */
 
-import edu.unl.cc.smilehub.view.security.UserPrincipalDTO;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import edu.unl.cc.smilehub.domain.security.Usuario;
 
 public class FacesUtil {
-
-    public static UserPrincipalDTO getCurrentUser() {
-        return (UserPrincipalDTO) FacesContext.getCurrentInstance()
-                .getExternalContext()
-                .getUserPrincipal();
-    }
-
-    /*
-    public static boolean hasPermission(String resource, String action) {
-        UserPrincipal user = getCurrentUser();
-        return user != null && user.hasPermission(resource, action);
-    }
-    */
 
     public static void addSuccessMessage(String summary, String detail) {
         addMessage(FacesMessage.SEVERITY_INFO, summary, detail);
@@ -30,14 +15,6 @@ public class FacesUtil {
 
     public static void addSuccessMessageAndKeep(String summary, String detail) {
         addMessageAndKeep(FacesMessage.SEVERITY_INFO, summary, detail);
-    }
-
-    public static void addSuccessMessage(String detail) {
-        addMessage(FacesMessage.SEVERITY_INFO, null, detail);
-    }
-
-    public static void addSuccessMessageAndKeep(String detail) {
-        addMessageAndKeep(FacesMessage.SEVERITY_INFO, null, detail);
     }
 
     public static void addErrorMessage(String summary, String detail) {
@@ -48,37 +25,23 @@ public class FacesUtil {
         addMessageAndKeep(FacesMessage.SEVERITY_ERROR, summary, detail);
     }
 
-    public static void addErrorMessage(String detail) {
-        addMessage(FacesMessage.SEVERITY_ERROR, null, detail);
+    private static void addMessage(
+            FacesMessage.Severity severity,
+            String summary,
+            String detail) {
+
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(severity, summary, detail));
     }
 
-    public static void addErrorMessageAndKeep(String detail) {
-        addMessageAndKeep(FacesMessage.SEVERITY_ERROR, null, detail);
-    }
+    private static void addMessageAndKeep(
+            FacesMessage.Severity severity,
+            String summary,
+            String detail) {
 
-    /**
-     * Add messages in the same view
-     * @param severity
-     * @param summary
-     * @param detail
-     */
-    public static void addMessage(FacesMessage.Severity severity,  String summary, String detail){
-        FacesMessage fc = new FacesMessage(severity, summary, detail);
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        facesContext.addMessage(null, fc);
-    }
-
-    /**
-     * Add messages between navigation views
-     * @param severity
-     * @param summary
-     * @param detail
-     */
-    public static void addMessageAndKeep(FacesMessage.Severity severity,  String summary, String detail){
-        FacesMessage fc = new FacesMessage(severity, summary, detail);
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        facesContext.addMessage(null, fc);
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(severity, summary, detail));
+        context.getExternalContext().getFlash().setKeepMessages(true);
     }
 }
 

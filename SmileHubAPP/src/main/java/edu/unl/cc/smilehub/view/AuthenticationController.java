@@ -1,11 +1,8 @@
 package edu.unl.cc.smilehub.view;
 
-import edu.unl.cc.smilehub.domain.security.Usuario;
 import edu.unl.cc.smilehub.exception.CredentialInvalidException;
 import edu.unl.cc.smilehub.exception.EntityNotFoundException;
 import edu.unl.cc.smilehub.faces.FacesUtil;
-import edu.unl.cc.smilehub.view.security.UserPrincipalDTO;
-import edu.unl.cc.smilehub.view.security.UserSession;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
