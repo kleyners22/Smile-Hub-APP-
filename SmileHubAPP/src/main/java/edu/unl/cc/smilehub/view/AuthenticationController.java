@@ -1,10 +1,11 @@
 package edu.unl.cc.smilehub.view;
 
-import edu.unl.cc.smilehub.domain.security.User;
+import edu.unl.cc.smilehub.domain.security.Usuario;
 import edu.unl.cc.smilehub.exception.CredentialInvalidException;
 import edu.unl.cc.smilehub.exception.EntityNotFoundException;
 import edu.unl.cc.smilehub.faces.FacesUtil;
 import edu.unl.cc.smilehub.view.security.UserPrincipalDTO;
+import edu.unl.cc.smilehub.view.security.UserSession;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -28,16 +29,13 @@ public class AuthenticationController implements java.io.Serializable{
     private String password;
 
     @Inject
-    private SecurityFacade securityFacade;
-
-    @Inject
     private UserSession userSession;
 
     public String login(){
         logger.info("Login attempt for user: " + username);
         logger.info("Password: " + password);
         try {
-            User user = securityFacade.authenticate(username, password);
+            Usuario user = securityFacade.authenticate(username, password);
             setHttpSession(user);
             FacesUtil.addSuccessMessageAndKeep("Aviso", "Bienvenido " + user.getName());
             /*
@@ -65,7 +63,7 @@ public class AuthenticationController implements java.io.Serializable{
      * Establece la session de usuario en el contexto HTTTP de la aplicación
      * @param user
      */
-    private void setHttpSession(User user){
+    private void setHttpSession(Usuario user){
         FacesContext context = FacesContext.getCurrentInstance();
         UserPrincipalDTO userPrincipal = new UserPrincipalDTO(user);
         context.getExternalContext().getSessionMap().put("user", userPrincipal);

@@ -1,43 +1,73 @@
 package edu.unl.cc.smilehub.view;
 
-import edu.unl.cc.smilehub.domain.AtencionMedica;
+import edu.unl.cc.smilehub.domain.AgendaCita;
 import edu.unl.cc.smilehub.domain.Cita;
+import edu.unl.cc.smilehub.domain.EstadoCita;
+import edu.unl.cc.smilehub.domain.TipoAtencion;
+import edu.unl.cc.smilehub.domain.common.TipoIdentificacion;
+import edu.unl.cc.smilehub.gestion.Paciente;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Named("citaController")
 @SessionScoped
 public class CitaController implements Serializable {
 
-    private Cita cita = new Cita();
-    private List<AtencionMedica> atenciones = new ArrayList<>();
+    private Cita nuevaCita;
+    private AgendaCita agendaCita = new AgendaCita();
+    private TipoIdentificacion[] tiposIdentificacion = TipoIdentificacion.values();
+    private TipoAtencion[] listaTipoAtenciones = TipoAtencion.values();
+    private EstadoCita[] listaEstadoCita = EstadoCita.values();
 
-    public Cita getCita() {
-        return cita;
+    public void iniciarNuevaCita() {
+        nuevaCita = new Cita();
+        nuevaCita.setPaciente(new Paciente());
     }
 
-    public void setCita(Cita cita) {
-        this.cita = cita;
+    public void agendarCita() {
+        agendaCita.agendarCita(nuevaCita);
+        nuevaCita = new Cita();
     }
 
-    public List<AtencionMedica> getAtenciones() {
-        return atenciones;
+    public Cita getNuevaCita() {
+        return nuevaCita;
     }
 
-    public void agregarAtencion(AtencionMedica a) {
-        atenciones.add(a);
-        cita.setAtenciones(atenciones);
+    public void setNuevaCita(Cita nuevaCita) {
+        this.nuevaCita = nuevaCita;
     }
 
-    public void guardarCita() {
-        System.out.println("Cita guardada: " + cita);
+    public AgendaCita getAgendaCita() {
+        return agendaCita;
     }
 
-    public double getCostoTotal() {
-        return cita.calcularCostoTotal();
+    public void setAgendaCita(AgendaCita agendaCita) {
+        this.agendaCita = agendaCita;
+    }
+
+    public TipoIdentificacion[] getTiposIdentificacion() {
+        return tiposIdentificacion;
+    }
+
+    public void setTiposIdentificacion(TipoIdentificacion[] tiposIdentificacion) {
+        this.tiposIdentificacion = tiposIdentificacion;
+    }
+
+    public TipoAtencion[] getListaTipoAtenciones() {
+        return listaTipoAtenciones;
+    }
+
+    public void setListaTipoAtenciones(TipoAtencion[] listaTipoAtenciones) {
+        this.listaTipoAtenciones = listaTipoAtenciones;
+    }
+
+    public EstadoCita[] getListaEstadoCita() {
+        return listaEstadoCita;
+    }
+
+    public void setListaEstadoCita(EstadoCita[] listaEstadoCita) {
+        this.listaEstadoCita = listaEstadoCita;
     }
 }
