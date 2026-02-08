@@ -1,5 +1,6 @@
 package edu.unl.cc.smilehub.view.security;
 
+import edu.unl.cc.smilehub.domain.security.User;
 import edu.unl.cc.smilehub.domain.security.Usuario;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
@@ -12,7 +13,7 @@ import java.io.Serializable;
 public class UserSession implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Usuario usuario;
+    private User user;
 
     public void postLogin(Usuario usuario) {
         this.usuario = usuario;
@@ -44,8 +45,8 @@ public class UserSession implements Serializable {
     }
 
     // El Topbar busca "userSession.user.name"
-    public Usuario getUser() {
-        return usuario;
+    public User getUser() {
+        return user;
     }
 
     public String getName() {

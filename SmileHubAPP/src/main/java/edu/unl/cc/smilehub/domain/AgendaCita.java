@@ -21,7 +21,7 @@ public class AgendaCita {
 
     public void agendarCita(Cita cita) {
         if (cita == null) {
-            throw new IllegalArgumentException("La no puede estar vacia");
+            throw new IllegalArgumentException("La cita puede estar vacia");
         }
         this.agenda.add(cita);
     }

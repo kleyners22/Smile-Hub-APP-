@@ -9,9 +9,8 @@ public class Doctor extends EntidadLegal{
         super();
     }
 
-    public Doctor (String razonSocial, String tipoIdentificacion, String dni,
-                   String telefono, String correo){
-        super(razonSocial, tipoIdentificacion, dni,
-                telefono, correo);
+    public Doctor (String razonsocial,String nombres,
+                   String apellidos, String tipoIdentificacion,
+                   String numeroIdentificacion,String direccion, String telefono, String correo) {;
     }
 }

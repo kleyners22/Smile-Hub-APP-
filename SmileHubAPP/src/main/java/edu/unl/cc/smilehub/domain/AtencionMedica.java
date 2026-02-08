@@ -6,37 +6,18 @@ package edu.unl.cc.smilehub.domain;
 
 public class AtencionMedica{
 
-    private String nombreAtencion;
     private double costoAtencion;
     private String descripcionMedica;
     private TipoAtencion tipoAtencion;
-    public AtencionMedica() {
+
+    public AtencionMedica(){
 
     }
 
-    public AtencionMedica(String nombreAtencion, double costoAtencion, String descripcionMedica, TipoAtencion
-            tipoAtencion) {
-        this.setNombreAtencion(nombreAtencion);
-        this.setCostoAtencion(costoAtencion);
-        this.setDescripcionMedica(descripcionMedica);
-        this.setTipoAtencion(tipoAtencion);
-    }
-
-    public void agregarAtencionMedica(String nombreAtencion, String descripcionMedica, TipoAtencion tipoAtencion) {
-        this.setNombreAtencion(nombreAtencion);
-        this.setDescripcionMedica(descripcionMedica);
-        this.setTipoAtencion(tipoAtencion);
-    }
-
-    public String getNombreAtencion() {
-        return nombreAtencion;
-    }
-
-    public void setNombreAtencion(String nombreAtencion) {
-        if (nombreAtencion == null || nombreAtencion.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre de la atención no puede ser nulo ni vacío");
-        }
-        this.nombreAtencion = nombreAtencion;
+    public AtencionMedica(double costoAtencion, String descripcionMedica, TipoAtencion tipoAtencion){
+        this.costoAtencion = costoAtencion;
+        this.descripcionMedica = descripcionMedica;
+        this.tipoAtencion = tipoAtencion;
     }
 
     public double getCostoAtencion() {
@@ -44,9 +25,6 @@ public class AtencionMedica{
     }
 
     public void setCostoAtencion(double costoAtencion) {
-        if (costoAtencion <= 0) {
-            throw new IllegalArgumentException("El costo de la atención debe ser mayor a cero");
-        }
         this.costoAtencion = costoAtencion;
     }
 
@@ -55,9 +33,6 @@ public class AtencionMedica{
     }
 
     public void setDescripcionMedica(String descripcionMedica) {
-        if (descripcionMedica == null || descripcionMedica.trim().isEmpty()) {
-            throw new IllegalArgumentException("La descripción médica no puede ser nula ni vacía");
-        }
         this.descripcionMedica = descripcionMedica;
     }
 
@@ -66,19 +41,16 @@ public class AtencionMedica{
     }
 
     public void setTipoAtencion(TipoAtencion tipoAtencion) {
-        if (tipoAtencion == null) {
-            throw new IllegalArgumentException("El tipo de atención no puede ser nulo");
-        }
         this.tipoAtencion = tipoAtencion;
     }
 
     @Override
     public String toString() {
-        return "AtencionMedica{" +
-                "nombreAtencion='" + nombreAtencion + '\'' +
-                ", costoAtencion=" + costoAtencion +
-                ", descripcionMedica='" + descripcionMedica + '\'' +
-                ", tipoAtencion=" + tipoAtencion +
-                '}';
+        final StringBuffer sb = new StringBuffer("AtencionMedica{");
+        sb.append("costoAtencion=").append(costoAtencion);
+        sb.append(", descripcionMedica='").append(descripcionMedica).append('\'');
+        sb.append(", tipoAtencion=").append(tipoAtencion);
+        sb.append('}');
+        return sb.toString();
     }
 }
