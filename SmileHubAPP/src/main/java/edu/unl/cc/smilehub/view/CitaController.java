@@ -4,7 +4,7 @@ import edu.unl.cc.smilehub.domain.AgendaCita;
 import edu.unl.cc.smilehub.domain.Cita;
 import edu.unl.cc.smilehub.domain.EstadoCita;
 import edu.unl.cc.smilehub.domain.TipoAtencion;
-import edu.unl.cc.smilehub.domain.security.TipoIdentificacion;
+import edu.unl.cc.smilehub.domain.admin.TipoIdentificacion;
 import edu.unl.cc.smilehub.gestion.Paciente;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;

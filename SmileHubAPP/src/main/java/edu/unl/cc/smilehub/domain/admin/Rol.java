@@ -1,8 +1,4 @@
-package edu.unl.cc.smilehub.domain.security;
-
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+package edu.unl.cc.smilehub.domain.admin;
 
 public class Rol {
 

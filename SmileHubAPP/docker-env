@@ -8,6 +8,10 @@ DB_NAME=smilehub_db
 DB_USER=smileuser
 DB_PASSWORD=smileUser2525
 
+## VARIABLES DE ENTORNO PARA CONFIGURACIÓN DE ACCESO A BD
+## DENTRO DEL CONTENEDOR DE LA APP
+DB_SERVER_NAME=smilehub-pg-db-container
+DB_PORT_NUMBER=5432
 
 ## DRIVER JDBC (Si lo necesitas para tu app Java)
 DRIVER_JDBC_DIR=target/lib/*.jar

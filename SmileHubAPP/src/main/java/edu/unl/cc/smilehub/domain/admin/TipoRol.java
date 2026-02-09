@@ -1,4 +1,4 @@
-package edu.unl.cc.smilehub.domain.security;
+package edu.unl.cc.smilehub.domain.admin;
 
 public enum TipoRol {
     SECRETARIA,

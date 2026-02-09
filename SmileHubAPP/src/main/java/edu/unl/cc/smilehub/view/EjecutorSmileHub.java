@@ -26,7 +26,7 @@ public class EjecutorSmileHub {
 
                 System.out.print("Ingrese el costo de la atención: ");
                 double costo = sc.nextDouble();
-                sc.nextLine(); // limpiar buffer
+                sc.nextLine();
 
                 System.out.print("Ingrese la descripción médica: ");
                 String descripcion = sc.nextLine();
@@ -40,9 +40,6 @@ public class EjecutorSmileHub {
                 String tipoTexto = sc.nextLine();
 
                 TipoAtencion tipo = TipoAtencion.valueOf(tipoTexto);
-
-                atencion.agregarAtencionMedica(nombre, descripcion, tipo);
-                atencion.setCostoAtencion(costo);
 
                 System.out.println("\nAtención médica registrada correctamente:");
                 System.out.println(atencion);
