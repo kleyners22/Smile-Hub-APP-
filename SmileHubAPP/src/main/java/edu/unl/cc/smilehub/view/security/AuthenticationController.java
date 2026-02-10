@@ -1,90 +1,59 @@
 package edu.unl.cc.smilehub.view.security;
 
-import edu.unl.cc.smilehub.business.security.SecurityFacade;
-import edu.unl.cc.smilehub.domain.admin.Usuario;
 import edu.unl.cc.smilehub.domain.admin.TipoRol;
-import edu.unl.cc.smilehub.exception.CredentialInvalidException;
-import edu.unl.cc.smilehub.exception.EntityNotFoundException;
-import edu.unl.cc.smilehub.faces.FacesUtil;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Inject;
+import edu.unl.cc.smilehub.domain.admin.Usuario;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class AuthenticationController implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @PersistenceContext
+    private EntityManager em;
 
-    private static final Logger logger =
-            Logger.getLogger(AuthenticationController.class.getName());
-
-    private String username;
+    private String identificacion;
     private String password;
+    private Usuario usuarioLogueado;
 
-    @Inject
-    private SecurityFacade securityFacade;
-
-    @Inject
-    private UserSession userSession;
-
-    /**
-     * Método para login
-     */
     public String login() {
         try {
-            Usuario user = securityFacade.authenticate(username, password);
-            userSession.login(user);
+            usuarioLogueado = em.createQuery(
+                            "SELECT u FROM Usuario u WHERE u.identificacion = :id AND u.password = :pass", Usuario.class)
+                    .setParameter("id", identificacion)
+                    .setParameter("pass", password)
+                    .getSingleResult();
 
-            FacesUtil.addSuccessMessageAndKeep(
-                    "Inicio de sesión",
-                    "Bienvenido a SmileHub"
-            );
+            // Guardamos el objeto completo en la sesión de JSF
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuarioLogueado);
 
-            // Redireccionar según rol
-            switch (user.getRol()) {
-                case PACIENTE:
-                    return "/pages/paciente/citas.xhtml?faces-redirect=true";
-                case DOCTOR:
-                    return "/pages/doctor/citas-hoy.xhtml?faces-redirect=true";
-                case SECRETARIA:
-                    return "/pages/secretaria/agendar-citas.xhtml?faces-redirect=true";
-                default:
-                    logger.warning("Rol desconocido: " + user.getRol());
-                    return "/index.xhtml?faces-redirect=true";
-            }
+            // Redirección por Rol
+            if (usuarioLogueado.getRol() == TipoRol.SECRETARIA) return "dashboardSecretaria?faces-redirect=true";
+            if (usuarioLogueado.getRol() == TipoRol.PACIENTE) return "dashboardPaciente?faces-redirect=true";
 
-        } catch (CredentialInvalidException | EntityNotFoundException e) {
-            FacesUtil.addErrorMessage("Error", e.getMessage());
+            return "dashboard?faces-redirect=true";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Usuario o clave incorrectos"));
             return null;
         }
     }
 
-    /**
-     * Método para logout
-     */
     public String logout() {
-        userSession.logout();
-        return "/index.xhtml?faces-redirect=true";
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "login?faces-redirect=true";
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    // Getters y Setters...
+    public String getIdentificacion() { return identificacion; }
+    public void setIdentificacion(String identificacion) { this.identificacion = identificacion; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public Usuario getUsuarioLogueado() { return usuarioLogueado; }
 }

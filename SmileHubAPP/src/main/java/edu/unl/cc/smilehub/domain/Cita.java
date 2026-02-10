@@ -1,49 +1,74 @@
-/*
-@author Kleyner.ls
- */
 package edu.unl.cc.smilehub.domain;
 
+import edu.unl.cc.smilehub.domain.admin.TipoIdentificacion;
 import edu.unl.cc.smilehub.gestion.Doctor;
+import edu.unl.cc.smilehub.gestion.EntidadLegal;
 import edu.unl.cc.smilehub.gestion.Paciente;
+import jakarta.persistence.*;
 
+import javax.print.attribute.standard.NumberOfDocuments;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class Cita {
+@Entity
+public class Cita implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
 
     private LocalDate fecha;
+
+
     private LocalTime hora;
+
+
     private Integer turno;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_cita")
     private EstadoCita estadoCita;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "paciente_id")
     private Paciente paciente;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private Doctor doctor;
-    private List<AtencionMedica> atenciones;
+
+    private TipoAtencion tipoAtencion;
+
+    private TipoIdentificacion tipoIdentificacion;
 
     public Cita() {
 
     }
 
-    public Cita ( LocalDate fecha, LocalTime hora, Integer turno,
-                  EstadoCita estadoCita, Paciente paciente, Doctor doctor,
-                  List<AtencionMedica> atenciones) {
+    public Cita(LocalDate fecha, LocalTime hora, Integer turno,
+                EstadoCita estadoCita, Paciente paciente, Doctor doctor,
+                TipoAtencion atenciones) {
         this.fecha = fecha;
         this.hora = hora;
         this.turno = turno;
         this.estadoCita = estadoCita;
         this.paciente = paciente;
         this.doctor = doctor;
-        this.atenciones = atenciones;
+        this.tipoAtencion = atenciones;
     }
 
-    public double calcularCostoTotal() {
-        double total = 0;
-        if (atenciones != null) {
-            for (AtencionMedica a : atenciones) {
-                total += a.getCostoAtencion(); // suma cada atención
-            }
-        }
-        return total;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDate getFecha() {
@@ -54,9 +79,7 @@ public class Cita {
         this.fecha = fecha;
     }
 
-    public LocalTime getHora() {
-        return hora;
-    }
+    public LocalTime getHora() { return hora; }
 
     public void setHora(LocalTime hora) {
         this.hora = hora;
@@ -94,25 +117,19 @@ public class Cita {
         this.doctor = doctor;
     }
 
-    public List<AtencionMedica> getAtenciones() {
-        return atenciones;
+    public TipoAtencion getTipoAtencion() {
+        return tipoAtencion;
     }
 
-    public void setAtenciones(List<AtencionMedica> atenciones) {
-        this.atenciones = atenciones;
+    public void setTipoAtencion(TipoAtencion tipoAtencion) {
+        this.tipoAtencion = tipoAtencion;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Cita{");
-        sb.append("fecha=").append(fecha);
-        sb.append(", hora=").append(hora);
-        sb.append(", turno=").append(turno);
-        sb.append(", estadoCita=").append(estadoCita);
-        sb.append(", paciente=").append(paciente);
-        sb.append(", doctor=").append(doctor);
-        sb.append(", atenciones=").append(atenciones);
-        sb.append('}');
-        return sb.toString();
+    public TipoIdentificacion getTipoIdentificacion() {
+        return tipoIdentificacion;
+    }
+
+    public void setTipoIdentificacion(TipoIdentificacion tipoIdentificacion) {
+        this.tipoIdentificacion = tipoIdentificacion;
     }
 }

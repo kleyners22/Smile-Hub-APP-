@@ -1,11 +1,10 @@
-package edu.unl.cc.smilehub.business.security;
+package edu.unl.cc.smilehub.business;
 
 import edu.unl.cc.smilehub.domain.admin.Usuario;
 import edu.unl.cc.smilehub.exception.CredentialInvalidException;
 import edu.unl.cc.smilehub.exception.EntityNotFoundException;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import org.postgresql.util.PasswordUtil;
 
 @Stateless
 public class SecurityFacade {

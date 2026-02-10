@@ -3,11 +3,21 @@
  */
 package edu.unl.cc.smilehub.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import edu.unl.cc.smilehub.gestion.Paciente;
+import jakarta.persistence.*;
 
+import java.util.List;
+import java.util.ArrayList;
+
+@Entity
 public class AgendaCita {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "agenda")
     private List<Cita> agenda;
 
     public AgendaCita() {
@@ -19,12 +29,22 @@ public class AgendaCita {
         this.agenda = agenda;
     }
 
-    public void agendarCita(Cita cita) {
-        if (cita == null) {
-            throw new IllegalArgumentException("La cita puede estar vacia");
+
+    public void agragarCita(Cita cita) {
+        if (agenda == null) {
+            this.agenda = new ArrayList<>();
         }
-        this.agenda.add(cita);
+        if (!agenda.contains(cita)) {
+            this.agenda.add(cita);
+        }
     }
+
+    public void eliminarCita(Cita cita) {
+        if (agenda.contains(cita)) {
+            this.agenda.remove(cita);
+        }
+    }
+
 
     public List<Cita> getAgenda() {
         return agenda;

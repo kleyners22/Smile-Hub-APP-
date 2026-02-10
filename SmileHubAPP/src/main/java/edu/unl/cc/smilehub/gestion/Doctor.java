@@ -1,45 +1,31 @@
 package edu.unl.cc.smilehub.gestion;
 
+import edu.unl.cc.smilehub.domain.admin.TipoIdentificacion;
 import edu.unl.cc.smilehub.domain.admin.Usuario;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
-@Table(name = "doctores")
-public class Doctor extends EntidadLegal {
-
-    @Id
-    private Long id;
-
-    @OneToOne(optional = false)
-    @MapsId
-    @JoinColumn(name = "id")
-    private Usuario usuario;
+public class Doctor extends EntidadLegal implements Serializable {
 
     public Doctor() {
         super();
     }
 
-    public Doctor(Usuario usuario,
+    public Doctor(Long id, Usuario usuario,
                   String razonSocial,
                   String nombres,
                   String apellidos,
-                  String tipoIdentificacion,
+                  TipoIdentificacion tipoIdentificacion,
                   String numeroIdentificacion,
                   String telefono,
                   String correo) {
 
-        super(razonSocial, nombres, apellidos,
+        super(id,razonSocial, nombres, apellidos,
                 tipoIdentificacion, numeroIdentificacion,
                 telefono, correo);
 
-        this.usuario = usuario;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 }
