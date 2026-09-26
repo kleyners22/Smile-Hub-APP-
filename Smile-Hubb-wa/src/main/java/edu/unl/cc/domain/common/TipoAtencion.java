@@ -1,0 +1,16 @@
+package edu.unl.cc.domain.common;
+
+public enum TipoAtencion {
+    PREVENCION_LIMPIEZA,
+    DIAGNOSTICO_EVALUACION,
+    RESTAURADORA,
+    QUIRURGICA,
+    ENDODONCIA,
+    CIRUGIA_ORAL,
+    PROTESIS_DENTAL,
+    PERIODONCIA,
+    CONTROL_SEGUIMIENTO,
+    ESTETICA_DENTAL,
+    ODONTOPEDIATRIA,
+}
+
